@@ -8,9 +8,13 @@
     background-color: #fff;
     display: flex;
 
-    .logo,
-    .logo svg {
-        height: 60px;
-        width: 60px;
+    .container {
+        padding: 0 42px;
+
+        .logo,
+        .logo svg {
+            height: 50px;
+            width: 50px;
+        }
     }
 }

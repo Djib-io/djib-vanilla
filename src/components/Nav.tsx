@@ -5,10 +5,17 @@ import classNames from "classnames";
 function Nav() {
   return (
     <div className={classNames(styles.nav)}>
-      <div className="container d-flex align-items-center">
-          <div className={styles.logo}>
-            <Logo />
-          </div>
+      <div
+        className={classNames(
+          "container",
+          "d-flex",
+          "align-items-center",
+          styles.container
+        )}
+      >
+        <div className={styles.logo}>
+          <Logo />
+        </div>
       </div>
     </div>
   );
