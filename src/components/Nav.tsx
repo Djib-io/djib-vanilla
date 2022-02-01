@@ -1,6 +1,7 @@
 import styles from "./../styles/modules/Nav.module.scss";
 import { ReactComponent as Logo } from "./../assets/images/logo.svg";
 import classNames from "classnames";
+import WalletButton from "./WalletButton";
 
 function Nav() {
   return (
@@ -15,6 +16,10 @@ function Nav() {
       >
         <div className={styles.logo}>
           <Logo />
+        </div>
+
+        <div className="ms-auto">
+          <WalletButton />
         </div>
       </div>
     </div>
