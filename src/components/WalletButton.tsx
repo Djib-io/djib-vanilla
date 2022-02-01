@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, {useState, useEffect, useCallback, useMemo} from "react";
 import Button from "./Button";
 import styles from "./../styles/modules/WalletButton.module.scss";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -8,9 +8,11 @@ import useMeasure from "react-use-measure";
 import { walletMenu } from "../constants/options";
 
 function WalletButton() {
-  const { publicKey, wallet, connected } = useWallet();
+  const { publicKey, wallet, connected, disconnect } = useWallet();
 
   const [show, setShow] = useState(false);
+
+  const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
 
   const [optionsRef, { height: viewHeight }] = useMeasure();
   const { height, opacity } = useSpring({
@@ -37,9 +39,20 @@ function WalletButton() {
     };
   }, []);
 
-  const handleItemClick = useCallback((item: string) => {
-    setShow(false);
-  }, []);
+  const handleItemClick = useCallback(async (value: string) => {
+    switch (value){
+      case 'disconnect':
+        disconnect()
+        break
+      case 'change':
+        disconnect()
+        break
+      case 'copy':
+        if (base58)
+          await navigator.clipboard.writeText(base58);
+        break
+    }
+  }, [disconnect, base58]);
 
   const handleButtonClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -48,7 +61,7 @@ function WalletButton() {
     },
     [connected]
   );
-
+ 
   return (
     <div className={styles.container}>
       <Button
