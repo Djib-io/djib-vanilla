@@ -45,7 +45,6 @@ function ConnectWallet() {
 
   const handleClick = useCallback(
     (walletName) => {
-      console.log(walletName);
       select(walletName);
     },
     [select]

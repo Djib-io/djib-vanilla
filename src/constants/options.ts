@@ -1,16 +1,17 @@
 import { Option } from "../components/Dropdown";
+import {WalletAdapterNetwork} from "@solana/wallet-adapter-base";
 
 export const networkOptions: Option[] = [
   {
-    value: "mainnet",
+    value: WalletAdapterNetwork.Mainnet.valueOf(),
     label: "Mainnet",
   },
   {
-    value: "devnet",
+    value: WalletAdapterNetwork.Devnet.valueOf(),
     label: "Devnet",
   },
   {
-    value: "testnet",
+    value: WalletAdapterNetwork.Testnet.valueOf(),
     label: "Testnet",
   },
 ];
