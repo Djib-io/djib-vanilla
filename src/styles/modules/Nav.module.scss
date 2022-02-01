@@ -16,5 +16,16 @@
             height: 50px;
             width: 50px;
         }
+
+        .right{
+            margin-left: auto;
+            display: flex;
+            gap: 18px;
+
+
+            .networkDropdown{
+                font-size: 14px;
+            }
+        }
     }
 }
