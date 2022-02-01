@@ -6,6 +6,7 @@ import { WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useSpring, animated } from "@react-spring/web";
 import useMeasure from "react-use-measure";
 import { walletMenu } from "../constants/options";
+import {toast} from "react-hot-toast";
 
 function WalletButton() {
   const { publicKey, wallet, connected, disconnect } = useWallet();
@@ -39,7 +40,7 @@ function WalletButton() {
     };
   }, []);
 
-  const handleItemClick = useCallback(async (value: string) => {
+  const handleItemClick = useCallback((value: string) => {
     switch (value){
       case 'disconnect':
         disconnect()
@@ -49,7 +50,11 @@ function WalletButton() {
         break
       case 'copy':
         if (base58)
-          await navigator.clipboard.writeText(base58);
+          toast.promise(navigator.clipboard.writeText(base58), {
+            loading: 'Copy...',
+            success: <b>Copied!</b>,
+            error: <b>Failed.</b>,
+          })
         break
     }
   }, [disconnect, base58]);
