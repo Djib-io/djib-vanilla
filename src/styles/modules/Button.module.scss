@@ -1,0 +1,28 @@
+.button{
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+    border: 2px solid var(--primary-color);
+
+    &.light{
+        background-color: var(--alice-blue);
+        color: var(--primary-color);
+        border: 2px solid var(--alice-blue);
+
+
+        &:hover{
+            background-color: var(--alice-blue);
+            border: 2px solid var(--columbia-blue);
+        }
+    }
+
+    &:hover{
+        background-color: var(--alice-blue);
+        color: var(--primary-color);
+        border: 2px solid  var(--primary-color);
+    }
+}
