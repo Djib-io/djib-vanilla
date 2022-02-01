@@ -1,18 +1,50 @@
-.button {
-    font-size: 14px;
-    width: 150px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
+.container {
+    position: relative;
+    .button {
+        font-size: 14px;
+        width: 150px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
 
-    p {
-        width: 100%;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        p {
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        img {
+            height: 18px;
+        }
     }
 
-    img {
-        height: 18px;
+    .options {
+        position: absolute;
+        top: calc(100% + 6px);
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(8px);
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0px 23px 60px rgba(0, 89, 176, 0.05);
+        border: 1px solid var(--bright-gray);
+        overflow: hidden;
+
+        li {
+            color: var(--yankees-blue);
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.1s;
+
+            &:hover {
+                background-color: var(--alice-blue);
+                color: var(--primary-color);
+            }
+
+            &.active {
+                background-color: var(--alice-blue);
+                color: var(--primary-color);
+            }
+        }
     }
 }
