@@ -24,7 +24,7 @@
         display: flex;
         align-items: center;
         gap: 18px;
-        border: 1px solid var(--bright-gray);
+        border: 2px solid var(--bright-gray);
         border-radius: 12px;
         padding: 12px 24px;
         min-width: 300px;
@@ -35,7 +35,7 @@
         transition: all 0.2s;
 
         &:hover{
-            border: 1px solid var(--columbia-blue);
+            border: 2px solid var(--columbia-blue);
             background-color: var(--lotion);
         }
 
