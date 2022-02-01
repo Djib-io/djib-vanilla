@@ -1,5 +1,11 @@
 :root {
     --primary-color: #0074E5;
+
+    --success-color: #28C76F;
+    --info-color: #4caf50;
+    --warning-color: #FF9F43;
+    --danger-color: #D52B1E;
+
     --yankees-blue: #152D44;
     --charcoal: #374553;
     --weldon-blue: #7092B2;
