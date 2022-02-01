@@ -5,12 +5,12 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
-  LedgerWalletAdapter,
+  // LedgerWalletAdapter,
   PhantomWalletAdapter,
   SlopeWalletAdapter,
   SolflareWalletAdapter,
   SolletExtensionWalletAdapter,
-  TorusWalletAdapter,
+  // TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
@@ -27,8 +27,8 @@ export const Wallet: FC = ({ children }) => {
       new PhantomWalletAdapter(),
       new SlopeWalletAdapter(),
       new SolflareWalletAdapter(),
-      new TorusWalletAdapter(),
-      new LedgerWalletAdapter(),
+      // new TorusWalletAdapter(),
+      // new LedgerWalletAdapter(),
       new SolletExtensionWalletAdapter({ network }),
     ],
     [network]
