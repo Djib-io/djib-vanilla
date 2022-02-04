@@ -7,7 +7,7 @@
 
     & > p {
         font-size: 12px;
-        font-family: 500;
+        font-weight: 500;
         color: var(--philippine-silver);
     }
 
@@ -40,7 +40,7 @@
             backdrop-filter: blur(8px);
             width: 100%;
             border-radius: 12px;
-            box-shadow: 0px 23px 60px rgba(0, 89, 176, 0.05);
+            box-shadow: 0 23px 60px rgba(0, 89, 176, 0.05);
             border: 1px solid var(--bright-gray);
             overflow: hidden;
 
