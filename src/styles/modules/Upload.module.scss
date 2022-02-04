@@ -1,0 +1,35 @@
+.zone{
+    width: 600px;
+    height: 200px;
+    border: 2px dashed var(--columbia-blue);
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: var(--lotion);
+
+
+    &.active{
+        border: 2px dashed var(--primary-color);
+        background: var(--alice-blue);
+        p{
+            color: var(--primary-color);
+            span{
+                color: var(--yankees-blue);
+            }
+        }
+
+    }
+
+    p{
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--yankees-blue);
+        transition: all 0.2s;
+        span{
+            color: var(--primary-color);
+            transition: all 0.2s;
+        }
+    }
+}

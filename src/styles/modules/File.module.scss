@@ -1,0 +1,35 @@
+.file{
+  display: flex;
+  gap: 24px;
+  border: 2px solid var(--bright-gray);
+  padding: 12px 24px;
+  border-radius: 12px;
+  align-items: center;
+
+  p{
+    font-size: 14px;
+    color: var(--yankees-blue);
+  }
+
+  .icon{
+    width: 24px;
+    height: 24px;
+
+    svg{
+      width: 24px;
+      height: 24px;
+      fill: var(--primary-color);
+    }
+  }
+
+  .size{
+    margin-left: auto;
+    font-weight: 500;
+    color: var(--slate-gray);
+
+    span{
+      margin-left: 4px;
+      font-size: 12px;
+    }
+  }
+}
