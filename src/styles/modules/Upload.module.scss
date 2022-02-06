@@ -4,10 +4,12 @@
     border: 2px dashed var(--columbia-blue);
     border-radius: 28px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
     background: var(--lotion);
+    gap: 16px;
 
 
     &.active{
@@ -20,6 +22,22 @@
             }
         }
 
+    }
+
+    .fileIcon{
+        background: rgba(var(--primary-rgb-color), 0.1);
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+
+        svg{
+            width: 58px;
+            height: 58px;
+            fill: var(--primary-color);
+        }
     }
 
     p{

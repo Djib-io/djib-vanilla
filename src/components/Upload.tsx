@@ -4,6 +4,7 @@ import styles from './../styles/modules/Upload.module.scss'
 import classNames from "classnames";
 import FileComponent from "./File";
 import Button from "./Button";
+import {ReactComponent as FileIcon} from "./../assets/icons/file.svg";
 
 function Upload() {
 
@@ -29,6 +30,9 @@ function Upload() {
         <section className={styles.container}>
             <div {...getRootProps({className: classNames(styles.zone, {[styles.active]: isDragActive})})}>
                 <input {...getInputProps()} />
+                <div className={styles.fileIcon}>
+                    <FileIcon />
+                </div>
                 <p>Drop your files <span>here</span>, or browse</p>
             </div>
             <div className={'d-flex flex-column'} style={{gap: '8px', paddingTop: files.length ? '16px' : 0}}>
