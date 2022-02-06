@@ -3,6 +3,7 @@ import {useDropzone} from "react-dropzone";
 import styles from './../styles/modules/Upload.module.scss'
 import classNames from "classnames";
 import FileComponent from "./File";
+import Button from "./Button";
 
 function Upload() {
 
@@ -25,6 +26,12 @@ function Upload() {
             <div className={'d-flex flex-column'} style={{ gap: '8px', paddingTop: files.length ? '16px' : 0 }}>
                 {files.map(file => <FileComponent key={file.webkitRelativePath} file={file} />)}
             </div>
+            {Boolean(files.length) && (
+                <div className={'d-flex justify-content-center align-items-center mt-4'}>
+                    <Button>Payment</Button>
+                </div>
+            )}
+
         </section>
     );
 }
