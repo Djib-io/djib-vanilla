@@ -9,6 +9,7 @@
     backdrop-filter: blur(8px);
     border-bottom: 2px solid #fff;
     display: flex;
+    z-index: 20;
 
     .container {
         padding: 0 42px;
