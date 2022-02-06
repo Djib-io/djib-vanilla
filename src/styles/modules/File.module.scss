@@ -1,35 +1,91 @@
-.file{
+.container{
+  cursor: pointer;
   display: flex;
-  gap: 24px;
-  border: 2px solid var(--bright-gray);
-  padding: 12px 24px;
-  border-radius: 12px;
   align-items: center;
+  gap: 8px;
+  flex-direction: row-reverse;
 
-  p{
-    font-size: 14px;
-    color: var(--yankees-blue);
-  }
-
-  .icon{
-    width: 24px;
-    height: 24px;
-
-    svg{
-      width: 24px;
-      height: 24px;
-      fill: var(--primary-color);
+  &:hover{
+    .removeButton {
+      width: 28px;
+      transform: scale(1);
+      opacity: 1;
     }
   }
 
-  .size{
-    margin-left: auto;
-    font-weight: 500;
-    color: var(--slate-gray);
+  .removeButton{
+    width: 0;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--danger-color);
+    border-radius: 8px;
+    transform: scale(0);
+    transition: all 0.2s;
+    opacity: 0;
 
-    span{
-      margin-left: 4px;
-      font-size: 12px;
+    &:hover{
+      background: rgba(213, 43, 30, 0.1);
+    }
+
+    &:hover ~ .file{
+      border: 2px solid rgba(213, 43, 30, 0.1);
+      p{
+        color: var(--danger-color);
+      }
+      .icon svg{
+        fill: var(--danger-color);
+      }
+      .size{
+        color: var(--danger-color);
+      }
+    }
+
+    svg{
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .file{
+    display: flex;
+    gap: 24px;
+    border: 2px solid var(--bright-gray);
+    padding: 12px 24px;
+    border-radius: 12px;
+    align-items: center;
+    width: 100%;
+    transition: all 0.2s;
+
+    p{
+      font-size: 14px;
+      color: var(--yankees-blue);
+      transition: all 0.2s;
+    }
+
+    .icon{
+      width: 24px;
+      height: 24px;
+
+      svg{
+        width: 24px;
+        height: 24px;
+        fill: var(--primary-color);
+        transition: all 0.2s;
+      }
+    }
+
+    .size{
+      margin-left: auto;
+      font-weight: 500;
+      color: var(--slate-gray);
+      transition: all 0.2s;
+      span{
+        margin-left: 4px;
+        font-size: 12px;
+      }
     }
   }
 }
+
