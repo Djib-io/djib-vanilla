@@ -5,7 +5,9 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #fff;
     display: flex;
 
     .container {
