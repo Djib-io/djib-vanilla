@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from "react-dropzone";
 import styles from './../styles/modules/Upload.module.scss'
 import classNames from "classnames";
@@ -16,6 +16,14 @@ function Upload() {
     }, [acceptedFiles])
 
 
+    const handleRemoveFile = useCallback((index: number) => {
+        setFiles(prev => {
+            const newFiles = prev.slice()
+            newFiles.splice(index, 1)
+            return newFiles
+        })
+    }, [])
+
 
     return (
         <section className={styles.container}>
@@ -23,8 +31,9 @@ function Upload() {
                 <input {...getInputProps()} />
                 <p>Drop your files <span>here</span>, or browse</p>
             </div>
-            <div className={'d-flex flex-column'} style={{ gap: '8px', paddingTop: files.length ? '16px' : 0 }}>
-                {files.map(file => <FileComponent key={file.webkitRelativePath} file={file} />)}
+            <div className={'d-flex flex-column'} style={{gap: '8px', paddingTop: files.length ? '16px' : 0}}>
+                {files.map((file, index) => <FileComponent key={`file-${index}`} index={index} file={file}
+                                                           onRemove={handleRemoveFile}/>)}
             </div>
             {Boolean(files.length) && (
                 <div className={'d-flex justify-content-center align-items-center mt-4'}>
