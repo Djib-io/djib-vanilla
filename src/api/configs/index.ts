@@ -10,3 +10,8 @@ export const estimateReqConfig = (size: number) => jsonrpc.config()
     .method('estimate')
     .params({size, unit: 'kb'})
     .create()
+
+export const createPaymentReqConfig = (size: number, filenames: string[]) => jsonrpc.config()
+    .method('createPayment')
+    .params({size, unit: 'KB'}, filenames)
+    .create()
