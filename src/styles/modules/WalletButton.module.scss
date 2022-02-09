@@ -22,8 +22,7 @@
     .options {
         position: absolute;
         top: calc(100% + 6px);
-        background-color: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(8px);
+        background-color: #fff;
         width: 100%;
         border-radius: 12px;
         box-shadow: 0 23px 60px rgba(0, 89, 176, 0.05);
