@@ -1,48 +1,61 @@
 import React, {createContext, useCallback, useContext, useReducer} from "react";
-import { Actions } from "./types";
+import {Actions} from "./types";
+
+
+export type BoxStatus = 'loading' | 'error' | 'success' | 'normal'
 
 
 export type BoxBrowserState = {
     path: string,
+    status: BoxStatus,
+    message?: string
 }
 
-
-const initialValue = { path: '' }
+const initialValue: BoxBrowserState = {
+    path: '',
+    status: 'normal'
+}
 
 const BoxBrowserContext = createContext<BoxBrowserState>(initialValue)
 const BoxBrowserDispatchContext = createContext<React.Dispatch<any>>(() => null)
 
 
 type BoxBrowserActionsMap = {
-    setPath: string
-}
-
-
-function reducer(state:BoxBrowserState, action: Actions<BoxBrowserActionsMap>) {
-    switch(action.type) {
-        case 'setPath':
-            return {...state, path: action.payload }
-        default:
-            throw new Error(`[${action.type}] type does not exist in 'BoxBrowserActions'.`)
-      
+    setPath: string,
+    setStatus: {
+        status: BoxStatus,
+        message?: string
     }
 }
 
 
-const BoxBrowser:React.FC<{defaultPath: string}> = ({ children, defaultPath }) => {
-    const [state, dispatch] = useReducer(reducer, { path: defaultPath })
+function reducer(state: BoxBrowserState, action: Actions<BoxBrowserActionsMap>) {
+    switch (action.type) {
+        case 'setPath':
+            return {...state, path: action.payload}
+        case 'setStatus':
+            return {
+                ...state,
+                status: action.payload.status,
+                message: action.payload.message
+            }
+    }
+}
 
-  return (
-  <BoxBrowserDispatchContext.Provider value={dispatch}>
-      <BoxBrowserContext.Provider value={state}>
-          {children}
-      </BoxBrowserContext.Provider>
-  </BoxBrowserDispatchContext.Provider>
-  );
+
+const BoxBrowser: React.FC<{ defaultPath: string }> = ({children, defaultPath}) => {
+    const [state, dispatch] = useReducer(reducer, {path: defaultPath, status: 'normal'})
+
+    return (
+        <BoxBrowserDispatchContext.Provider value={dispatch}>
+            <BoxBrowserContext.Provider value={state}>
+                {children}
+            </BoxBrowserContext.Provider>
+        </BoxBrowserDispatchContext.Provider>
+    );
 }
 
 export default BoxBrowser;
-
 
 export const useBox = () => useContext(BoxBrowserContext)
 
@@ -56,5 +69,50 @@ export const useBoxDispatch = () => {
         })
     }, [dispatch])
 
-    return {navigate};
+    const updateStatus = useCallback((status: BoxStatus, message?: string) => {
+        dispatch({
+            type: 'setStatus',
+            payload: { status, message }
+        })
+    }, [dispatch])
+
+    const automateStatusChanger = useCallback((promise: Promise<string | undefined | void>) => {
+        dispatch({
+            type: 'setStatus',
+            payload: { status: 'loading' }
+        })
+        promise.then((res) => {
+            dispatch({
+                type: 'setStatus',
+                payload: {
+                    status: 'success',
+                    message: res
+                }
+            })
+        }).catch((e) => {
+            console.log({e})
+            if(e?.error?.code === -32603){
+                dispatch({
+                    type: 'setStatus',
+                    payload: { status: 'normal' }
+                })
+            }else{
+                dispatch({
+                    type: 'setStatus',
+                    payload: {
+                        status: 'error',
+                        message: e.type !== 'BoxError' ? 'There is a problem.\nPlease try again later' : e.message
+                    }
+                })
+            }
+        })
+
+    }, [dispatch])
+
+
+    return {navigate, automateStatusChanger, updateStatus};
+}
+
+export function BoxError(message: string) {
+    return {type: 'BoxError', message}
 }

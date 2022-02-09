@@ -1,18 +1,13 @@
-import { useSpring, animated } from "@react-spring/web";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useWallet, Wallet } from "@solana/wallet-adapter-react";
 import { WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useCallback, useEffect, useMemo } from "react";
 import styles from "./../styles/modules/ConnectWallet.module.scss";
-import Loading from "./Loading";
+import { useBoxDispatch} from "../providers/BoxBrowser";
 
 function ConnectWallet() {
   const { wallets, select, connecting } = useWallet();
-
-  const [_animatedStyles, api] = useSpring(() => ({
-    opacity: connecting ? 0 : 1,
-    scale: connecting ? 0.5 : 1,
-  }));
+  const { updateStatus } = useBoxDispatch()
 
   const [, , allWallets] = useMemo(() => {
     const installed: Wallet[] = [];
@@ -37,11 +32,8 @@ function ConnectWallet() {
   }, [wallets]);
 
   useEffect(() => {
-    api.start({
-      opacity: connecting ? 0 : 1,
-      scale: connecting ? 0.5 : 1,
-    });
-  }, [api, connecting]);
+    updateStatus(connecting ? 'loading' : 'normal')
+  }, [updateStatus,connecting]);
 
   const handleClick = useCallback(
     (walletName) => {
@@ -51,12 +43,12 @@ function ConnectWallet() {
   );
 
   return (
-    <div>
-      <animated.div style={_animatedStyles}>
+    <div className={styles.container}>
         <div className={styles.head}>
           <p>Connect Wallet</p>
           <div>Select your wallet</div>
         </div>
+
         <ul className={styles.wallets}>
           {allWallets.map((wallet) => (
             <li
@@ -68,18 +60,6 @@ function ConnectWallet() {
             </li>
           ))}
         </ul>
-      </animated.div>
-      <animated.div
-        className={styles.loading}
-        style={{
-          opacity: _animatedStyles.opacity.to((value) => 1 - value),
-          transform: _animatedStyles.scale.to(
-            (value) => `scale(${1 - (value - 0.5)}) translate(-50%, -50%)`
-          ),
-        }}
-      >
-        <Loading />
-      </animated.div>
     </div>
   );
 }
