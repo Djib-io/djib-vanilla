@@ -1,5 +1,6 @@
 import {AxiosRequestConfig, AxiosRequestHeaders, Method} from "axios";
 import {urlJoiner} from "../../utils/urlJoiner";
+import {WalletAdapterNetwork} from "@solana/wallet-adapter-base";
 
 export type ApiConfigCreatorOption = {
     baseurl: string,
@@ -11,7 +12,6 @@ export type ApiConfigOptions = Omit<AxiosRequestConfig<any>, 'url' | 'method' | 
 export interface ReqConfig {
     _path?: string
     _method: Method
-    _url: URL
     _data?: any
     _params?: any
     _options?: Object
@@ -33,7 +33,7 @@ export interface ReqConfig {
 
     headers(data: AxiosRequestHeaders): this
 
-    create(): AxiosRequestConfig
+    create(): (network: WalletAdapterNetwork) => AxiosRequestConfig
 }
 
 export type ApiConfig = {
@@ -48,7 +48,6 @@ export function apiConfigCreator({baseurl, scope = ''}: ApiConfigCreatorOption):
 
 export function apiConfig(baseurl: string, scope= ''): ReqConfig {
     return {
-        _url: new URL(urlJoiner(baseurl, scope)),
         _method: 'get',
         get(url?: string) {
             this._path = url || ''
@@ -86,17 +85,30 @@ export function apiConfig(baseurl: string, scope= ''): ReqConfig {
             this._headers = headers
             return this
         },
-        create(): AxiosRequestHeaders {
-            const url = new URL(this._url.toString())
-            url.pathname += this._path
-            return {
-                url: url.toString(),
-                method: this._method,
-                ...(this._data && {data: this._data}),
-                ...(this._headers && {headers: this._headers}),
-                ...(this._params && {params: this._params}),
-                ...(this._options || {})
+        create() {
+            return (network: WalletAdapterNetwork) => {
+                const url = new URL(urlJoiner(baseApiUrl(network), scope))
+                url.pathname += this._path
+                return {
+                    url: url.toString(),
+                    method: this._method,
+                    ...(this._data && {data: this._data}),
+                    ...(this._headers && {headers: this._headers}),
+                    ...(this._params && {params: this._params}),
+                    ...(this._options || {})
+                }
             }
         }
+    }
+}
+
+export const baseApiUrl = (network: WalletAdapterNetwork) => {
+    switch (network) {
+        case WalletAdapterNetwork.Mainnet:
+            return process.env.REACT_APP_API_MAIN_BASE_URL as string
+        case WalletAdapterNetwork.Devnet:
+            return process.env.REACT_APP_API_DEV_BASE_URL as string
+        case WalletAdapterNetwork.Testnet:
+            return process.env.REACT_APP_API_TEST_BASE_URL as string
     }
 }

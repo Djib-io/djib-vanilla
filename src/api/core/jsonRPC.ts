@@ -1,5 +1,6 @@
 import {ApiConfig} from "./configCreator";
 import {AxiosRequestConfig} from "axios";
+import {WalletAdapterNetwork} from "@solana/wallet-adapter-base";
 
 export type JsonRPCConfig = {
     config: () => JsonRPC
@@ -11,7 +12,7 @@ export interface JsonRPC {
 
     method(value: string): this
     params(...values: any[]): this
-    create(jsonrpc?: string, id?: number): AxiosRequestConfig
+    create(jsonrpc?: string, id?: number): (network: WalletAdapterNetwork) => AxiosRequestConfig
 }
 
 
@@ -36,13 +37,15 @@ function jsonRPCRegConfig(apiConfig:  ApiConfig): JsonRPC{
             this._params = values
             return this
         },
-        create(jsonrpc?: string, id?: number): AxiosRequestConfig {
-            return apiConfig.config().post().data({
-                method: this._method,
-                params: this._params,
-                jsonrpc: jsonrpc || "2.0",
-                id: id || 0
-            }).create()
+        create(jsonrpc?: string, id?: number) {
+            return (network: WalletAdapterNetwork) => {
+                return apiConfig.config().post().data({
+                    method: this._method,
+                    params: this._params,
+                    jsonrpc: jsonrpc || "2.0",
+                    id: id || 0
+                }).create()(network)
+            }
         }
     }
 }
