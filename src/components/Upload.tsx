@@ -5,19 +5,19 @@ import classNames from "classnames";
 import FileComponent from "./File";
 import Button from "./Button";
 import {ReactComponent as FileIcon} from "./../assets/icons/file.svg";
-import axios from "axios";
-import {createPaymentReqConfig} from "../api/configs";
-import {parseURL, createTransaction} from '@solana/pay';
-import BigNumber from 'bignumber.js';
 import {useConnection, useWallet} from "@solana/wallet-adapter-react";
-import {BoxError, useBox, useBoxDispatch} from "../providers/BoxBrowser";
+import {useBox, useBoxDispatch} from "../providers/BoxBrowser";
 import useMeasure from "react-use-measure";
 import {animated, useSpring} from '@react-spring/web'
+import {payment, upload} from "../api/thunks";
+import {useNetwork} from "../providers/NetworkProvider";
+import bs58 from 'bs58'
 
 function Upload() {
 
     const [files, setFiles] = useState<File[]>([]);
     const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone();
+    const network = useNetwork()
     const {signTransaction, publicKey} = useWallet()
     const {connection} = useConnection()
     const {automateStatusChanger} = useBoxDispatch()
@@ -52,37 +52,14 @@ function Upload() {
     }, [])
 
 
-    const payment = useCallback(async () => {
-        if (!publicKey) throw BoxError('You are not connected to your wallet!')
-
-        const totalSize = files.reduce((a, b) => a + b.size, 0) / 1024;
-        const response = await axios(createPaymentReqConfig(totalSize, files.map(file => file.name)))
-
-        const url = response?.data?.result[0] as string;
-        const {recipient, amount, splToken} = parseURL(url);
-
-        try {
-            const tx = await createTransaction(connection, publicKey, recipient, amount as BigNumber, {
-                splToken
-            });
-            tx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
-            tx.feePayer = publicKey;
-            // @ts-ignore
-            const signedTransaction = await signTransaction(tx);
-            await connection.sendRawTransaction(signedTransaction.serialize())
-        }catch (e: any){
-            if(e?.message === 'payer not found'){
-                throw BoxError('You do not have djib tokens in your wallet')
-            }else if(e?.message?.includes('insufficient')){
-                throw BoxError('Your funds are insufficient')
-            }
-            throw e
-        }
-    }, [publicKey, files, connection, signTransaction])
 
     const handlePayment = useCallback(async () => {
-        automateStatusChanger(payment())
-    }, [payment, automateStatusChanger])
+        if(!signTransaction || !publicKey) return
+        automateStatusChanger((async () => {
+            const {signature, txId} = await payment(network, connection, files, signTransaction, publicKey)
+            await upload(network, files, publicKey, signature, bs58.encode(txId as Buffer))
+        })())
+    }, [signTransaction, publicKey, automateStatusChanger, connection, files, network])
 
 
     return (

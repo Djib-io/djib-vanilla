@@ -15,3 +15,8 @@ export const createPaymentReqConfig = (size: number, filenames: string[]) => jso
     .method('createPayment')
     .params({size, unit: 'KB'}, filenames)
     .create()
+
+export const uploadReqConfig = (data: FormData) => api.config()
+    .post('/upload')
+    .data(data)
+    .create()
