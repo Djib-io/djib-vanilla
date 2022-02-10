@@ -25,7 +25,7 @@ export async function payment(network: WalletAdapterNetwork,connection: Connecti
         const signature = await connection.sendRawTransaction(signedTransaction.serialize())
         return {txId: tx.signature, signature}
     } catch (e: any) {
-        if (e?.message === 'payer not found') {
+        if (e?.message === 'payer not found' || e?.name === 'TokenAccountNotFoundError') {
             throw BoxError('You do not have djib tokens in your wallet')
         } else if (e?.message?.includes('insufficient')) {
             throw BoxError('Your funds are insufficient')
