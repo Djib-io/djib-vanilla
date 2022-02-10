@@ -2,7 +2,7 @@ import {apiConfigCreator} from "../core/configCreator";
 import {jsonRPC} from "../core/jsonRPC";
 
 
-const api = apiConfigCreator({baseurl: process.env.REACT_APP_API_BASE_URL as string})
+const api = apiConfigCreator()
 const jsonrpc = jsonRPC(api)
 
 

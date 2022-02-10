@@ -40,13 +40,13 @@ export type ApiConfig = {
     config: () => ReqConfig
 }
 
-export function apiConfigCreator({baseurl, scope = ''}: ApiConfigCreatorOption): ApiConfig {
+export function apiConfigCreator(option?: ApiConfigCreatorOption): ApiConfig {
     return {
-        config: () => apiConfig(baseurl, scope)
+        config: () => apiConfig(option?.scope)
     }
 }
 
-export function apiConfig(baseurl: string, scope= ''): ReqConfig {
+export function apiConfig(scope= ''): ReqConfig {
     return {
         _method: 'get',
         get(url?: string) {
