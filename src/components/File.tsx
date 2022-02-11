@@ -12,7 +12,9 @@ export type FileProps = {
 
 function File({file, onRemove, index}: FileProps) {
 
-    const size = useMemo(() => humanize.number(file.size), [file]);
+    const size = useMemo(() => humanize.number(file.size, {
+        binaryMode: true
+    }), [file]);
 
 
     const handleRemove = useCallback(() => {
