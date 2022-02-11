@@ -11,7 +11,6 @@ import useMeasure from "react-use-measure";
 import {animated, useSpring} from '@react-spring/web'
 import {payment, upload} from "../api/thunks";
 import {useNetwork} from "../providers/NetworkProvider";
-import bs58 from 'bs58'
 
 function Upload() {
 
@@ -56,8 +55,8 @@ function Upload() {
     const handlePayment = useCallback(async () => {
         if(!signTransaction || !publicKey) return
         automateStatusChanger((async () => {
-            const {signature, txId} = await payment(network, connection, files, signTransaction, publicKey)
-            await upload(network, files, publicKey, signature, bs58.encode(txId as Buffer))
+            const signature = await payment(network, connection, files, signTransaction, publicKey)
+            await upload(network, files, publicKey, signature)
         })())
     }, [signTransaction, publicKey, automateStatusChanger, connection, files, network])
 

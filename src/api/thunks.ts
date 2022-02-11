@@ -7,7 +7,13 @@ import {Connection, PublicKey, Transaction} from "@solana/web3.js";
 import {WalletAdapterNetwork} from "@solana/wallet-adapter-base";
 
 
-export async function payment(network: WalletAdapterNetwork,connection: Connection, files: File[], signTransaction: (transaction: Transaction) => Promise<Transaction>, publicKey: PublicKey) {
+export async function payment(
+    network: WalletAdapterNetwork,
+    connection: Connection,
+    files: File[],
+    signTransaction: (transaction: Transaction) => Promise<Transaction>,
+    publicKey: PublicKey
+) {
     const totalSize = files.reduce((a, b) => a + b.size, 0) / 1024;
     const response = await axios(createPaymentReqConfig(totalSize, files.map(file => file.name))(network))
 
@@ -20,10 +26,8 @@ export async function payment(network: WalletAdapterNetwork,connection: Connecti
         });
         tx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
         tx.feePayer = publicKey;
-        // @ts-ignore
         const signedTransaction = await signTransaction(tx);
-        const signature = await connection.sendRawTransaction(signedTransaction.serialize())
-        return {txId: tx.signature, signature}
+        return await connection.sendRawTransaction(signedTransaction.serialize())
     } catch (e: any) {
         if (e?.message === 'payer not found' || e?.name === 'TokenAccountNotFoundError') {
             throw BoxError('You do not have djib tokens in your wallet')
@@ -35,17 +39,21 @@ export async function payment(network: WalletAdapterNetwork,connection: Connecti
 }
 
 
-export async function upload(network: WalletAdapterNetwork, files: File[], publicKey: PublicKey, signature: string, txId?: string) {
+export async function upload(
+    network: WalletAdapterNetwork,
+    files: File[],
+    publicKey: PublicKey,
+    signature: string
+) {
     const data = new FormData()
 
     files.forEach(file => {
         data.append('files[]', file);
     })
 
-    data.append('txid', `${txId}`);
+    data.append('txid', signature);
     data.append('publickey', publicKey.toString());
     data.append('type', 'public');
-    data.append('signature', signature);
 
     await axios(uploadReqConfig(data)(network))
 }
