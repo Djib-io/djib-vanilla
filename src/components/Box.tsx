@@ -8,6 +8,8 @@ import StatusBox from "./StatusBox";
 export type BoxProps = {
     path: string;
     element: React.ReactElement;
+    successElement?: React.ReactElement;
+    errorElement?: React.ReactElement;
 };
 
 
@@ -22,7 +24,7 @@ const animationConfig = {
     },
 }
 
-function Box({path, element}: BoxProps) {
+function Box({path, element, successElement, errorElement}: BoxProps) {
     const {path: currentPath, status, message} = useBox();
 
     const transitions = useTransition(path === currentPath, animationConfig);
@@ -63,7 +65,7 @@ function Box({path, element}: BoxProps) {
                         <animated.div
                             className={styles.error}
                             style={errorStyles}>
-                            <StatusBox status={'error'} message={message}/>
+                            {errorElement || <StatusBox status={'error'} message={message}/>}
                         </animated.div>
                     ))}
 
@@ -71,7 +73,7 @@ function Box({path, element}: BoxProps) {
                         <animated.div
                             className={styles.success}
                             style={successStyles}>
-                            <StatusBox status={'success'} message={message}/>
+                            {successElement || <StatusBox status={'success'} message={message}/>}
                         </animated.div>
                     ))}
                 </animated.div>
