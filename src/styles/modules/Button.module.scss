@@ -8,6 +8,15 @@
     transition: all 0.1s;
     border: 2px solid var(--primary-color);
     min-height: 40px;
+    display: flex;
+    gap: 4px;
+    white-space: nowrap;
+    align-items: center;
+
+    svg{
+        width: 24px;
+        height: 24px;
+    }
 
     &.light{
         background-color: var(--alice-blue);

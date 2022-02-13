@@ -7,9 +7,10 @@ export type ButtonProps = {
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => any;
   className?: string;
   light?: boolean;
+  startIcon?: React.ReactChild;
 };
 
-function Button({ children, onClick, className, light }: ButtonProps) {
+function Button({ children, onClick, className, light, startIcon }: ButtonProps) {
   return (
     <div
       className={classNames(styles.button, {
@@ -18,6 +19,7 @@ function Button({ children, onClick, className, light }: ButtonProps) {
       })}
       onClick={(e) => onClick && onClick(e)}
     >
+      {startIcon}
       {children}
     </div>
   );
