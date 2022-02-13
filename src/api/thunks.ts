@@ -27,7 +27,9 @@ export async function payment(
         tx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
         tx.feePayer = publicKey;
         const signedTransaction = await signTransaction(tx);
-        return await connection.sendRawTransaction(signedTransaction.serialize())
+        const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+        await connection.confirmTransaction(signature);
+        return signature;
     } catch (e: any) {
         if (e?.message === 'payer not found' || e?.name === 'TokenAccountNotFoundError') {
             throw BoxError('You do not have djib tokens in your wallet')
@@ -37,7 +39,6 @@ export async function payment(
         throw e
     }
 }
-
 
 export async function upload(
     network: WalletAdapterNetwork,
@@ -55,5 +56,18 @@ export async function upload(
     data.append('publickey', publicKey.toString());
     data.append('type', 'public');
 
-    await axios(uploadReqConfig(data)(network))
+    return await uploadFiles(data, network);
+}
+
+
+async function uploadFiles(data: FormData, network: WalletAdapterNetwork, step: number = 8): Promise<string[]> {
+    try {
+        const response = await axios(uploadReqConfig(data)(network));
+        return response.data.result
+    } catch (error: any) {
+        if (step >= 0) {
+            return uploadFiles(data, network, step - 1);
+        }
+        throw error
+    }
 }
