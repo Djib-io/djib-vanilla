@@ -11,6 +11,7 @@ import useMeasure from "react-use-measure";
 import {animated, useSpring} from '@react-spring/web'
 import {payment, upload} from "../api/thunks";
 import {useNetwork} from "../providers/NetworkProvider";
+import {useUploadDispatch} from "../providers/Upload";
 
 function Upload() {
 
@@ -19,9 +20,10 @@ function Upload() {
     const network = useNetwork()
     const {signTransaction, publicKey} = useWallet()
     const {connection} = useConnection()
-    const {automateStatusChanger} = useBoxDispatch()
+    const {automateStatusChanger, navigate, updateStatus} = useBoxDispatch()
     const [ref, { height: viewHeight }] = useMeasure()
     const {status} = useBox()
+    const uploadDispatch = useUploadDispatch()
 
     const { height, opacity } = useSpring({
         from: { height: 0, opacity: 1 },
@@ -56,9 +58,15 @@ function Upload() {
         if(!signTransaction || !publicKey) return
         automateStatusChanger((async () => {
             const signature = await payment(network, connection, files, signTransaction, publicKey)
-            await upload(network, files, publicKey, signature)
-        })())
-    }, [signTransaction, publicKey, automateStatusChanger, connection, files, network])
+            const result = await upload(network, files, publicKey, signature)
+            uploadDispatch(result)
+        })(), {
+            success: () => {
+                updateStatus('normal')
+                navigate('result-upload')
+            }
+        })
+    }, [signTransaction, publicKey, automateStatusChanger, network, connection, files, uploadDispatch, updateStatus, navigate])
 
 
     return (

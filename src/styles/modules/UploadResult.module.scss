@@ -1,0 +1,27 @@
+.result{
+  background-color: #F6FAFE;
+  padding: 24px;
+  max-width: 600px;
+  margin-top: 24px;
+  font-family: 'Fira Code', monospace;
+  color: var(--charcoal);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  li{
+    a{
+      max-width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: block;
+      font-size: 14px;
+      color: var(--primary-color);
+      text-decoration: none;
+      margin: 0 36px;
+    }
+  }
+
+
+}
