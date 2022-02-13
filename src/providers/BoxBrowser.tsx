@@ -76,19 +76,25 @@ export const useBoxDispatch = () => {
         })
     }, [dispatch])
 
-    const automateStatusChanger = useCallback((promise: Promise<string | undefined | void>) => {
+    const automateStatusChanger = useCallback((promise: Promise<string | undefined | void>, callbacks: {
+        success: () => void
+    }) => {
         dispatch({
             type: 'setStatus',
             payload: { status: 'loading' }
         })
         promise.then((res) => {
-            dispatch({
-                type: 'setStatus',
-                payload: {
-                    status: 'success',
-                    message: res
-                }
-            })
+            if(callbacks?.success){
+                callbacks.success()
+            }else{
+                dispatch({
+                    type: 'setStatus',
+                    payload: {
+                        status: 'success',
+                        message: res
+                    }
+                })
+            }
         }).catch((e) => {
             console.log({e})
             if(e?.error?.code === -32603){
