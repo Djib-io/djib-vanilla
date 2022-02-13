@@ -5,25 +5,30 @@ import Header from "../components/Header";
 import Nav from "../components/Nav";
 import BoxBrowser from "../providers/BoxBrowser";
 import "./../styles/App.css";
-import Upload from "../components/Upload";
+import UploadComponent from "../components/Upload";
 import {useWallet} from "@solana/wallet-adapter-react";
+import Upload from "../providers/Upload";
+import UploadResultComponent from "./../components/UploadResult";
 
 function App() {
 
     const {connected} = useWallet()
 
-  return (
-    <div className="app">
-      <Nav />
-      <Header />
-      <BoxBrowser defaultPath='connect-wallet'>
-        <Boxes forceChangePath={!connected ? 'connect-wallet' : 'upload'}>
-          <Box path="connect-wallet" element={<ConnectWallet />} />
-          <Box path="upload" element={<Upload />} />
-        </Boxes>
-      </BoxBrowser>
-    </div>
-  );
+    return (
+        <div className="app">
+            <Nav/>
+            <Header/>
+            <Upload>
+                <BoxBrowser defaultPath='connect-wallet'>
+                    <Boxes forceChangePath={!connected ? 'connect-wallet' : 'upload'}>
+                        <Box path="connect-wallet" element={<ConnectWallet/>}/>
+                        <Box path="upload" element={<UploadComponent/>} />
+                        <Box path="result-upload" element={<UploadResultComponent />} />
+                    </Boxes>
+                </BoxBrowser>
+            </Upload>
+        </div>
+    );
 }
 
 export default App;
