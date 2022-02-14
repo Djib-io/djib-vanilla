@@ -59,9 +59,13 @@ export async function upload(
     return await uploadFiles(data, network);
 }
 
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function uploadFiles(data: FormData, network: WalletAdapterNetwork, step: number = 8): Promise<string[]> {
     try {
+        await sleep(5000)
         const response = await axios(uploadReqConfig(data)(network));
         return response.data.result
     } catch (error: any) {
