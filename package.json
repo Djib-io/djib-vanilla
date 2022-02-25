@@ -28,6 +28,7 @@
     "react-dropzone": "^11.5.3",
     "react-hot-toast": "^2.2.0",
     "react-scripts": "5.0.0",
+    "react-tooltip": "^4.2.21",
     "react-use-measure": "^2.1.1",
     "sass": "^1.49.0",
     "typescript": "^4.4.2",
