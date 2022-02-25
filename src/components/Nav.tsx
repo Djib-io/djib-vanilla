@@ -7,6 +7,7 @@ import {networkOptions} from "../constants/options";
 import {useNetwork, useNetworkDispatch} from "../providers/NetworkProvider";
 import {WalletAdapterNetwork} from "@solana/wallet-adapter-base";
 import {useCallback} from "react";
+import ReactTooltip from "react-tooltip";
 
 function Nav() {
 
@@ -40,6 +41,7 @@ function Nav() {
                 <div className={styles.right}>
                     <Dropdown defaultValue={network.valueOf()} className={styles.networkDropdown} options={networkOptions}
                               onChange={handleNetworkChange}>Network :</Dropdown>
+                    <ReactTooltip place="right" type="dark" effect="solid"/>
                     <WalletButton/>
                 </div>
             </div>

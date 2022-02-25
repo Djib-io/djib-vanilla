@@ -5,7 +5,7 @@ import useMeasure from "react-use-measure";
 import { ReactComponent as DropdownIcon } from "./../assets/icons/dropdown.svg";
 import styles from "./../styles/modules/Dropdown.module.scss";
 
-export type Option = { value: string; label: string };
+export type Option = { value: string; label: React.ReactChild, disabled?: boolean };
 
 export type DropdownProps = {
   defaultValue?: string;
@@ -51,10 +51,12 @@ function Dropdown({
     };
   }, []);
 
-  const handleItemClick = useCallback((item: string) => {
-    if (onChange) onChange(item);
-    setActive(item);
-    setShow(false);
+  const handleItemClick = useCallback((item: Option) => {
+    if(!item?.disabled){
+      if (onChange) onChange(item.value);
+      setActive(item.value);
+      setShow(false);
+    }
   }, [onChange]);
 
   const handleButtonClick = useCallback((
@@ -87,10 +89,11 @@ function Dropdown({
             {options.map((option) => (
               <li
                 key={`option-item-${option.value}`}
+                {...(option?.disabled && {['data-tip']:"Coming soon!"})}
                 className={classNames({
                   [styles.active]: option.value === acitve,
                 })}
-                onClick={() => handleItemClick(option.value)}
+                onClick={() => handleItemClick(option)}
               >
                 {option.label}
               </li>

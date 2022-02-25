@@ -26,6 +26,7 @@
             gap: 8px;
             transition: all 0.1s;
             cursor: pointer;
+            white-space: nowrap;
 
             &:hover {
                 background-color: var(--alice-blue);
