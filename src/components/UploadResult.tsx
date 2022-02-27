@@ -45,8 +45,8 @@ function UploadResult() {
                 gap: '16px',
                 marginTop: '24px'
             }}>
-                <Button startIcon={<BackIcon/>} onClick={() => navigate('upload')}>Try Again</Button>
-                <Button startIcon={<DownloadIcon/>} onClick={download}>Download txt file</Button>
+                <Button startIcon={<BackIcon/>} onClick={() => navigate('upload')}>Upload Again</Button>
+                <Button startIcon={<DownloadIcon/>} onClick={download}>Save Links</Button>
             </div>
         </div>
     );
