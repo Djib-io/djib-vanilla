@@ -15,7 +15,7 @@ function App() {
     const {connected} = useWallet()
 
     return (
-        <div className="app">
+        <div className="app" style={{ zIndex: 2, position: 'relative' }}>
             <Nav/>
             <Header/>
             <Upload>

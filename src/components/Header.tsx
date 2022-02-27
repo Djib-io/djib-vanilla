@@ -12,7 +12,7 @@ function Header() {
       <div className={styles.header}>
         <p>Upload file to Djib</p>
         <div>
-          Djib-vanilla is a lightweight, secure, and carbon-neutral web app to
+          Djib-vanilla is a lightweight, secure, and carbon-neutral web3.0 app to
           store and share files on the Djib network, powered by Solana
         </div>
       </div>

@@ -14,7 +14,7 @@ ReactDOM.render(
           className: '',
           style: {
               color: 'var(--yankees-blue)',
-              boxShadow: '0px 11px 60px rgba(0, 89, 176, 0.15)'
+              boxShadow: '0px 11px 60px rgba(0, 89, 176, 0.15)',
           },
           success: {
               iconTheme: {
@@ -25,7 +25,8 @@ ReactDOM.render(
       }}
       containerStyle={{
           bottom: 40,
-          right:40
+          right:40,
+          zIndex:1
       }}
       position={'bottom-right'} />
     </Providers>
