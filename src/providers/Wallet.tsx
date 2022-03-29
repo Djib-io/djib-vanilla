@@ -14,11 +14,17 @@ import {useNetwork} from "./NetworkProvider";
 import {clusterApiUrl} from "@solana/web3.js";
 
 
+const rpcEndPoint = {
+    devnet: process.env.REACT_APP_API_DEV_BASE_URL,
+    "mainnet-beta": process.env.REACT_APP_API_MAIN_BASE_URL,
+    testnet:  process.env.REACT_APP_API_TEST_BASE_URL,
+}
+
 export const Wallet: FC = ({children}) => {
 
     const network = useNetwork()
 
-    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+    const endpoint = useMemo(() => rpcEndPoint[network] || clusterApiUrl(network), [network]);
 
     const wallets = useMemo(
         () => [

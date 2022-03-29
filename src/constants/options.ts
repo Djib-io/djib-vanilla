@@ -5,7 +5,6 @@ export const networkOptions: Option[] = [
   {
     value: WalletAdapterNetwork.Mainnet.valueOf(),
     label: "Mainnet",
-    disabled: true
   },
   {
     value: WalletAdapterNetwork.Devnet.valueOf(),
@@ -14,7 +13,6 @@ export const networkOptions: Option[] = [
   {
     value: WalletAdapterNetwork.Testnet.valueOf(),
     label: "Testnet",
-    disabled: true
   },
 ];
 
