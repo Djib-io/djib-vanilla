@@ -8,7 +8,7 @@ const NetworkDispatchContext = createContext<React.Dispatch<any>>(() => null)
 
 
 const NetworkProvider:React.FC = ({ children }) => {
-    const [state, setState] = useState(WalletAdapterNetwork.Devnet)
+    const [state, setState] = useState(WalletAdapterNetwork.Mainnet)
 
     return (
         <NetworkDispatchContext.Provider value={setState}>
