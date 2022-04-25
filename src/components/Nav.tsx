@@ -39,8 +39,6 @@ function Nav() {
                 </div>
 
                 <div className={styles.right}>
-                    <Dropdown defaultValue={network.valueOf()} className={styles.networkDropdown} options={networkOptions}
-                              onChange={handleNetworkChange}>Network :</Dropdown>
                     <ReactTooltip place="right" type="dark" effect="solid"/>
                     <WalletButton/>
                 </div>
