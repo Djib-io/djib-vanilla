@@ -44,7 +44,6 @@ export async function upload(
     network: WalletAdapterNetwork,
     files: File[],
     publicKey: PublicKey,
-    signature: string
 ) {
     const data = new FormData()
 
@@ -52,7 +51,6 @@ export async function upload(
         data.append('files[]', file);
     })
 
-    data.append('txid', signature);
     data.append('publickey', publicKey.toString());
     data.append('type', 'public');
 
@@ -64,14 +62,6 @@ function sleep(ms: number) {
 }
 
 async function uploadFiles(data: FormData, network: WalletAdapterNetwork, step: number = 8): Promise<string[]> {
-    try {
-        await sleep(8000)
-        const response = await axios(uploadReqConfig(data)(network));
-        return response.data.result
-    } catch (error: any) {
-        if (step >= 0) {
-            return uploadFiles(data, network, step - 1);
-        }
-        throw error
-    }
+    const response = await axios(uploadReqConfig(data)(network));
+    return response.data.result
 }

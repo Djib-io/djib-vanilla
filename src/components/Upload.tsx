@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from "react-dropzone";
 import styles from './../styles/modules/Upload.module.scss'
 import classNames from "classnames";
 import FileComponent from "./File";
 import Button from "./Button";
 import {ReactComponent as FileIcon} from "./../assets/icons/file.svg";
-import {useConnection, useWallet} from "@solana/wallet-adapter-react";
+import {useWallet} from "@solana/wallet-adapter-react";
 import {useBox, useBoxDispatch} from "../providers/BoxBrowser";
 import useMeasure from "react-use-measure";
 import {animated, useSpring} from '@react-spring/web'
-import {payment, upload} from "../api/thunks";
+import {upload} from "../api/thunks";
 import {useNetwork} from "../providers/NetworkProvider";
 import {useUploadDispatch} from "../providers/Upload";
 
@@ -19,7 +19,6 @@ function Upload() {
     const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone();
     const network = useNetwork()
     const {signTransaction, publicKey} = useWallet()
-    const {connection} = useConnection()
     const {automateStatusChanger, navigate, updateStatus} = useBoxDispatch()
     const [ref, { height: viewHeight }] = useMeasure()
     const {status} = useBox()
@@ -54,11 +53,10 @@ function Upload() {
 
 
 
-    const handlePayment = useCallback(async () => {
+    const handleUpload = useCallback(async () => {
         if(!signTransaction || !publicKey) return
         automateStatusChanger((async () => {
-            const signature = await payment(network, connection, files, signTransaction, publicKey)
-            const result = await upload(network, files, publicKey, signature)
+            const result = await upload(network, files, publicKey)
             uploadDispatch(result)
         })(), {
             success: () => {
@@ -66,7 +64,7 @@ function Upload() {
                 navigate('result-upload')
             }
         })
-    }, [signTransaction, publicKey, automateStatusChanger, network, connection, files, uploadDispatch, updateStatus, navigate])
+    }, [signTransaction, publicKey, automateStatusChanger, network, files, uploadDispatch, updateStatus, navigate])
 
 
     return (
@@ -89,7 +87,7 @@ function Upload() {
                     </div>
                     {Boolean(files.length) && (
                         <div className={'d-flex justify-content-center align-items-center mt-4'}>
-                            <Button onClick={handlePayment}>Payment</Button>
+                            <Button onClick={handleUpload}>Upload</Button>
                         </div>
                     )}
                 </div>
