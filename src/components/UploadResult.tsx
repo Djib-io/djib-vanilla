@@ -40,7 +40,7 @@ function UploadResult() {
                     {resultUpload.map(link => <li key={link}><a href={link} target="_blank" rel="noreferrer">{link},</a></li>)}
                 <li>{']'}</li>
             </ul>
-            <div style={{
+            <div className={styles.uplsave} style={{
                 display: 'flex',
                 gap: '16px',
                 marginTop: '24px'

@@ -11,6 +11,11 @@
         z-index: 1;
         margin-top: 180px;
         position: absolute;
+
+        @media (max-width: 520px){
+            width: 100%;
+            margin-top: 200px;
+        }
     }
 
     .error, .loading, .success{

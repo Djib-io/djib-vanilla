@@ -1,3 +1,4 @@
+
 .zone{
     width: 600px;
     height: 200px;
@@ -11,6 +12,14 @@
     background: var(--lotion);
     gap: 16px;
 
+    @media (max-width: 720px){
+        width: 400px;
+    }
+    
+
+    @media (max-width: 520px){
+        width: 100%;
+    }
 
     &.active{
         border: 2px dashed var(--primary-color);
@@ -41,6 +50,7 @@
     }
 
     p{
+        text-align: center;
         font-size: 24px;
         font-weight: 600;
         color: var(--yankees-blue);

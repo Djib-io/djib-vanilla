@@ -10,6 +10,17 @@
   flex-direction: column;
   gap: 4px;
 
+  @media (max-width: 720px){
+    width: 400px;
+  }
+
+  @media (max-width: 512px){
+    width: 80%;
+  }
+
+
+  
+
   li{
     a{
       max-width: 100%;
@@ -24,4 +35,12 @@
   }
 
 
+}
+
+.uplsave{
+  @media (max-width: 365px){
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
 }

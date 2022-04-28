@@ -42,10 +42,26 @@
       }
     }
 
+    
+
     svg{
       width: 22px;
       height: 22px;
     }
+  }
+
+  @media (max-width: 720px){
+    width: 400px;
+
+    .removeButton{
+      width: 28px;
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 520px){
+    width: 100%;
   }
 
   .file{
@@ -64,6 +80,18 @@
       overflow: hidden;
       white-space: nowrap;
       max-width: 400px;
+
+      @media (max-width: 720px){
+        max-width: 200px;
+      }
+
+      @media (max-width: 490px){
+        max-width: 50px;
+      }
+
+      @media (max-width: 334px){
+        max-width: 50px;
+      }
     }
 
     p{
@@ -89,6 +117,10 @@
       font-weight: 500;
       color: var(--slate-gray);
       transition: all 0.2s;
+
+      @media (max-width: 334px){
+        display: none;
+      }
       span{
         margin-left: 4px;
         font-size: 12px;

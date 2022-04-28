@@ -20,6 +20,10 @@
     gap: 10px;
     padding: 18px 0;
 
+    @media (max-width: 385px){
+        width: 100%;
+    }
+
     li{
         display: flex;
         align-items: center;
@@ -33,6 +37,10 @@
         color: var(--yankees-blue);
         cursor: pointer;
         transition: all 0.2s;
+
+        @media (max-width: 385px){
+            min-width: 100%;
+        }
 
         &:hover{
             border: 2px solid var(--columbia-blue);

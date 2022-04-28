@@ -1,6 +1,12 @@
 .container {
     position: relative;
 
+    @media (max-width: 600px){
+        width: 100%;
+        padding: 0;
+        max-width: unset;
+    }
+
     .header{
         position: absolute;
         text-align: center;
@@ -22,6 +28,12 @@
             color: var(--weldon-blue);
             font-size: 14px;
             max-width: 550px;
+
+            @media (max-width: 600px){
+                width: 100%;
+                padding: 0 1.75rem;
+                max-width: unset;
+            }
         }
     }
 
@@ -33,6 +45,12 @@
         position: absolute;
         overflow: hidden;
         z-index: -1;
+        left: 50%;
+        transform: translateX(-50%);
+
+        @media (max-width: 600px){
+            border-radius: 0;
+        }
 
         span:first-child {
             display: block;
