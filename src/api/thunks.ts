@@ -48,7 +48,7 @@ export async function upload(
     const data = new FormData()
 
     files.forEach(file => {
-        data.append('file[]', file);
+        data.append('files[]', file);
     })
 
     data.append('publicKey', publicKey.toString());
