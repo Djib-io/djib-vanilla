@@ -1,0 +1,15 @@
+.inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  .desc {
+    grid-column: 1 / 3;
+    grid-row: 3 / 3;
+  }
+}
+
+.dropdowns {
+    display: flex;
+    gap: 1rem;
+}

@@ -1,0 +1,65 @@
+.input {
+    position: relative;
+  
+    &.fullWidth {
+      width: 100%;
+      input,
+      textarea {
+        width: 100%;
+      }
+    }
+    input,
+    textarea {
+      width: 100%;
+      display: flex;
+      background: var(--slate-100);
+      border: 2px solid var(--slate-100);
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      color: var(--slate-600);
+      transition: all 0.1s;
+      font-family: 'Poppins' , -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+  
+      &.djibType {
+        padding: 0.5rem 5rem 0.5rem 1rem;
+      }
+  
+      &:focus {
+        background: var(--slate-50);
+        border: 2px solid var(--slate-200);
+      }
+  
+      &:disabled {
+        background: var(--slate-100);
+        color: var(--slate-100);
+      }
+    }
+  
+    textarea {
+      min-height: 100px;
+      resize: none;
+    }
+  
+    .djibUnit {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      right: 1rem;
+      transform: translateY(50%);
+      height: 22px;
+  
+      p {
+        font-weight: 500;
+      }
+  
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+  

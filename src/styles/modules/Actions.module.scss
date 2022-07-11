@@ -1,0 +1,45 @@
+.container {
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    li {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      background-color: var(--alice-blue);
+      color: var(--primary-color);
+      border: 2px solid var(--alice-blue);
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      transition: all 0.1s;
+
+      &:hover {
+        color: #fff;
+        background-color: var(--primary-color);
+      }
+
+      svg {
+        with: 32px;
+        height: 32px;
+      }
+    }
+  }
+
+  .head {
+    text-align: center;
+    padding-bottom: 24px;
+
+    p {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--yankees-blue);
+    }
+    div {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--weldon-blue);
+    }
+  }
+}

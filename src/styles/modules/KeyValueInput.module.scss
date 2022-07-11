@@ -1,0 +1,44 @@
+.container {
+  background: var(--slate-50);
+  border-radius: 0.5rem;
+  border: 2px solid var(--slate-100);
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.3rem;
+  padding: 1rem;
+  min-height: 100px;
+  flex-wrap: wrap;
+
+  .item {
+    border-radius: 100px;
+    height: fit-content;
+
+    span:first-child {
+      border: 2px solid var(--slate-400);
+      background: var(--slate-400);
+      padding: 0.05rem 0.25rem;
+      border-radius: 0.5rem 0 0 0.5rem;
+      color: #fff;
+      font-size: 0.8rem;
+    }
+
+    span:last-child {
+      border: 2px solid var(--slate-400);
+      color: var(--slate-400);
+      padding: 0.05rem 0.25rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+      font-size: 0.8rem;
+    }
+
+    &.active {
+      span:first-child {
+        border: 2px solid var(--primary-color);
+        background: var(--primary-color);
+      }
+      span:last-child {
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+      }
+    }
+  }
+}
