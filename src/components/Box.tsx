@@ -26,7 +26,6 @@ const animationConfig = {
 function Box({ path, element, successElement, errorElement }: BoxProps) {
   const { path: currentPath, status, message } = useBox();
 
-  const transitions = useTransition(path === currentPath, animationConfig);
   const ref = useRef<HTMLDivElement>(null);
 
   const loadingTransitions = useTransition(
@@ -61,51 +60,53 @@ function Box({ path, element, successElement, errorElement }: BoxProps) {
         }
       }).observe(ref.current);
     }
-  }, [ref.current]);
+  }, []);
 
-  return transitions(
-    (_styles, show) =>
-      show && (
-        <animated.div className={styles.box} ref={ref} style={{ ..._styles }}>
-          <animated.div
-            className={styles.normal}
-            style={{ opacity: contentAnimatedStyles.opacity }}
-          >
-            {element}
-          </animated.div>
-
-          {loadingTransitions(
-            (loadingStyles, showLoading) =>
-              showLoading && (
-                <animated.div className={styles.loading} style={loadingStyles}>
-                  <Loading />
-                </animated.div>
-              )
-          )}
-
-          {errorTransitions(
-            (errorStyles, showError) =>
-              showError && (
-                <animated.div className={styles.error} style={errorStyles}>
-                  {errorElement || (
-                    <StatusBox status={"error"} message={message} />
-                  )}
-                </animated.div>
-              )
-          )}
-
-          {successTransitions(
-            (successStyles, showSuccess) =>
-              showSuccess && (
-                <animated.div className={styles.success} style={successStyles}>
-                  {successElement || (
-                    <StatusBox status={"success"} message={message} />
-                  )}
-                </animated.div>
-              )
-          )}
+  return (
+    path === currentPath ? (
+      <animated.div
+        className={styles.box}
+        ref={ref}
+      >
+        <animated.div
+          className={styles.normal}
+          style={{ opacity: contentAnimatedStyles.opacity }}
+        >
+          {element}
         </animated.div>
-      )
+
+        {loadingTransitions(
+          (loadingStyles, showLoading) =>
+            showLoading && (
+              <animated.div className={styles.loading} style={loadingStyles}>
+                <Loading />
+              </animated.div>
+            )
+        )}
+
+        {errorTransitions(
+          (errorStyles, showError) =>
+            showError && (
+              <animated.div className={styles.error} style={errorStyles}>
+                {errorElement || (
+                  <StatusBox status={"error"} message={message} />
+                )}
+              </animated.div>
+            )
+        )}
+
+        {successTransitions(
+          (successStyles, showSuccess) =>
+            showSuccess && (
+              <animated.div className={styles.success} style={successStyles}>
+                {successElement || (
+                  <StatusBox status={"success"} message={message} />
+                )}
+              </animated.div>
+            )
+        )}
+      </animated.div>
+    ) : null
   );
 }
 

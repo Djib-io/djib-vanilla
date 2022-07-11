@@ -13,6 +13,7 @@ import MintOptions from "../components/MintOptions";
 import MintOne from "../components/MintOne";
 import useAuth from "../hooks/useAuth";
 import MintOneUpload from "../components/MintOneUpload";
+import Footer from "../components/Footer";
 
 function App() {
   const { status } = useAuth();
@@ -36,6 +37,7 @@ function App() {
             </Boxes>
           </BoxBrowser>
         </Upload>
+        <Footer />
       </div>
     </>
   );
