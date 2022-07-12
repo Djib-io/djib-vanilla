@@ -9,20 +9,27 @@ import { useBox, useBoxDispatch } from "../providers/BoxBrowser";
 import useMeasure from "react-use-measure";
 import { animated, useSpring } from "@react-spring/web";
 import { useUploadDispatch } from "../providers/Upload";
+import FileComponent from "./File";
+import { upload } from "../api/thunks";
+import { useNetwork } from "../providers/NetworkProvider";
+import { useDjibConnection } from "../providers/DjibConnectionProvider";
 
 function MintOneUpload() {
   const [files, setFiles] = useState<File[]>([]);
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone({ multiple: false });
+  const network = useNetwork();
   const { signTransaction, publicKey } = useWallet();
   const { automateStatusChanger, navigate, updateStatus } = useBoxDispatch();
   const { status } = useBox();
   const uploadDispatch = useUploadDispatch();
+  const [ref, { height: viewHeight }] = useMeasure();
+  const djibConn = useDjibConnection();
 
   const { height, opacity } = useSpring({
     from: { height: 0, opacity: 1 },
     to: {
-      height: status === "normal" ? 80 : 0,
+      height: status === "normal" ? viewHeight : 0,
       opacity: status === "normal" ? 1 : 0,
     },
     config: {
@@ -34,12 +41,45 @@ function MintOneUpload() {
   });
 
   useEffect(() => {
-    setFiles((prev) => [...prev, ...acceptedFiles]);
+    setFiles((prev) => acceptedFiles);
   }, [acceptedFiles]);
 
-  const handleUpload = useCallback(() => {
-    navigate("mint-one");
-  }, [navigate]);
+  const handleUpload = useCallback(async () => {
+    if (!signTransaction || !publicKey) return;
+    automateStatusChanger(
+      (async () => {
+        const { result } = await djibConn.upload({
+          files: files,
+          publicKey: publicKey.toBase58(),
+        });
+        console.log([...result, files[0].type]);
+        uploadDispatch([...result, files[0].type.split('/')[1]]);
+      })(),
+      {
+        success: () => {
+          updateStatus("normal");
+          navigate("mint-one");
+        },
+      }
+    );
+  }, [
+    signTransaction,
+    publicKey,
+    automateStatusChanger,
+    djibConn,
+    files,
+    uploadDispatch,
+    updateStatus,
+    navigate,
+  ]);
+
+  const handleRemoveFile = useCallback((index: number) => {
+    setFiles((prev) => {
+      const newFiles = prev.slice();
+      newFiles.splice(index, 1);
+      return newFiles;
+    });
+  }, []);
 
   return (
     <section className={styles.container}>
@@ -56,14 +96,38 @@ function MintOneUpload() {
           Drop your files <span>here</span>, or browse
         </p>
       </div>
-
-      <div>
-        <div
-          className={"d-flex justify-content-center align-items-center mt-4"}
-        >
-          <Button onClick={handleUpload}>Mint</Button>
+      <animated.div
+        style={{
+          height,
+          opacity,
+          overflow: "hidden",
+        }}
+      >
+        <div ref={ref}>
+          <div
+            className={classNames("d-flex flex-column", styles.files)}
+            style={{ gap: "8px", paddingTop: files.length ? "16px" : 0 }}
+          >
+            {files.map((file, index) => (
+              <FileComponent
+                key={`file-${index}`}
+                index={index}
+                file={file}
+                onRemove={handleRemoveFile}
+              />
+            ))}
+          </div>
+          {Boolean(files.length) && (
+            <div
+              className={
+                "d-flex justify-content-center align-items-center mt-4"
+              }
+            >
+              <Button onClick={handleUpload}>Next</Button>
+            </div>
+          )}
         </div>
-      </div>
+      </animated.div>
     </section>
   );
 }

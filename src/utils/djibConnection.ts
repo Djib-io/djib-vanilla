@@ -339,20 +339,32 @@ export class DjibConnection {
     )) as JsonRPCResponse<string>;
   }
 
-  async upload(
-    files: FileList | File[],
-    type: "private" | "public",
-    path: string
-  ) {
-    if (!this.token) throw Error("Authorization Error");
+  async upload({
+    files,
+    publicKey,
+    path,
+  }: {
+    files: FileList | File[];
+    publicKey?: string;
+    path?: string;
+  }) {
+    const isPrivate = !publicKey;
 
     const formData = new FormData();
     for (let x = 0; x < files.length; x++) {
       formData.append("files[]", files[x]);
     }
-    formData.append("type", type);
-    formData.append("path", path);
-    formData.append("token", this.token);
+    formData.append("type", isPrivate ? "private" : "public");
+    if (path) formData.append("path", path);
+
+    if (isPrivate) {
+      if (!this.token) throw Error("Authorization Error");
+      formData.append("token", this.token);
+    }
+
+    if (publicKey) {
+      formData.append("publicKey", publicKey);
+    }
 
     const { data } = await axios({
       method: "post",
@@ -436,9 +448,8 @@ export class DjibConnection {
 
   async saveAsNft(
     path: string,
-    trackingCode: string,
     attrs: {
-      thumbnail?: string;
+      thumbnail?: string | null;
       name: string;
       symbol: string;
       description: string;
@@ -449,10 +460,13 @@ export class DjibConnection {
       family: string;
     }
   ) {
-    return (await this.rpc("saveAsNft", this.token, path, trackingCode, {
+    return (await this.rpc("saveAsNft", this.token, path, {
       ...attrs,
       thumbnail: attrs.thumbnail || null,
-    })) as JsonRPCResponse<string>;
+    })) as JsonRPCResponse<{
+      cid: string;
+      created_at: string;
+    }>;
   }
 
   async lsNfts(count: number = 10, skip: number = 0, family?: string) {
@@ -661,6 +675,16 @@ export class DjibConnection {
       this.token,
       cids,
       path
+    )) as JsonRPCResponse<string>;
+  }
+
+  async uploadAsset(cid: string, created_at: string, tracking_code?: string) {
+    return (await this.rpc(
+      "uploadAsset",
+      this.token,
+      cid,
+      created_at,
+      tracking_code
     )) as JsonRPCResponse<string>;
   }
 }

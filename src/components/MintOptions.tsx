@@ -15,11 +15,11 @@ function MintOptions() {
       <ul>
         <li onClick={() => navigate("mint-one-upload")}>
           <MintOneIcon />
-          <p>Mint 1</p>
+          <p>Mint one</p>
         </li>
         <li>
           <CollectionIcon />
-          <p>Mint a collection</p>
+          <p>Mint a collection (coming soon)</p>
         </li>
       </ul>
     </div>

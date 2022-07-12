@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  gap: 0.25rem;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5rem;
+  margin-top: 10px;
+  white-space: nowrap;
+  align-items: center;
+
+  .item {
+    color: var(--slate-400) !important;
+    cursor: pointer;
+    &:hover {
+      color: var(--primary-color) !important;
+    }
+
+    &.disabled {
+      cursor: default;
+      &:hover {
+        color: var(--slate-400) !important;
+      }
+    }
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}

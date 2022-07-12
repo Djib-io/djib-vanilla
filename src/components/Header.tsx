@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import React from "react";
 import styles from "./../styles/modules/Header.module.scss";
+import Breadcrumb from "./Breadcrumb";
 
 function Header() {
   return (
-    <div className={classNames("container", styles.container)}>
+    <div className={classNames(styles.container)}>
       <div className={styles.headerBc}>
         <span />
         <span />
@@ -17,7 +18,10 @@ function Header() {
           can upload and share files permanently, and mint nfts on solana with
           no coding skill required
         </div>
+        
+        <Breadcrumb />
       </div>
+
     </div>
   );
 }

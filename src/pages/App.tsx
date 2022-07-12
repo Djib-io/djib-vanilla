@@ -21,9 +21,9 @@ function App() {
     <>
       <div className="app" style={{ zIndex: 2, position: "relative" }}>
         <Nav />
-        <Header />
         <Upload>
           <BoxBrowser defaultPath="connect-wallet">
+            <Header />
             <Boxes
               forceChangePath={status !== "ok" ? "connect-wallet" : "actions"}
             >
