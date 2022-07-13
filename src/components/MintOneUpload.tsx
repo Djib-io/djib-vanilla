@@ -52,7 +52,6 @@ function MintOneUpload() {
           files: files,
           publicKey: publicKey.toBase58(),
         });
-        console.log([...result, files[0].type]);
         uploadDispatch([...result, files[0].type.split('/')[1]]);
       })(),
       {

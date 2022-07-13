@@ -162,7 +162,6 @@ function KeyValueInput({ onChange }: KeyValueInputProps) {
 
   const handleClick = useCallback(() => {
     if (!Object.keys(state.data).length) {
-        console.log('c')
       setState({
         data: {
           [uuid()]: { attr: "", value: "" },

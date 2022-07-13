@@ -7,14 +7,16 @@ export type ButtonProps = {
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => any;
   className?: string;
   light?: boolean;
+  isDisabled?: boolean;
   startIcon?: React.ReactChild;
 };
 
-function Button({ children, onClick, className, light, startIcon }: ButtonProps) {
+function Button({ children, onClick, className, light, startIcon,isDisabled }: ButtonProps) {
   return (
     <div
       className={classNames(styles.button, {
         [styles.light]: light,
+        [styles.disabled]: isDisabled,
         [className || ""]: className,
       })}
       onClick={(e) => onClick && onClick(e)}

@@ -1,38 +1,50 @@
-.button{
-    background-color: var(--primary-color);
+.button {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  border: 2px solid var(--primary-color);
+  min-height: 40px;
+  display: flex;
+  gap: 4px;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.light {
+    background-color: var(--alice-blue);
+    color: var(--primary-color);
+    border: 2px solid var(--alice-blue);
+
+    &:hover {
+      background-color: var(--alice-blue);
+      border: 2px solid var(--columbia-blue);
+    }
+  }
+
+  &.disabled {
+    background-color: var(--slate-400);
     color: #fff;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.1s;
+    border: 2px solid var(--slate-400);
+
+    &:hover {
+      color: #fff;
+
+      background-color: var(--slate-400);
+      border: 2px solid var(--slate-400);
+    }
+  }
+
+  &:hover {
+    background-color: var(--alice-blue);
+    color: var(--primary-color);
     border: 2px solid var(--primary-color);
-    min-height: 40px;
-    display: flex;
-    gap: 4px;
-    white-space: nowrap;
-    align-items: center;
-    justify-content:center;
-    svg{
-        width: 24px;
-        height: 24px;
-    }
-
-    &.light{
-        background-color: var(--alice-blue);
-        color: var(--primary-color);
-        border: 2px solid var(--alice-blue);
-
-
-        &:hover{
-            background-color: var(--alice-blue);
-            border: 2px solid var(--columbia-blue);
-        }
-    }
-
-    &:hover{
-        background-color: var(--alice-blue);
-        color: var(--primary-color);
-        border: 2px solid  var(--primary-color);
-    }
+  }
 }

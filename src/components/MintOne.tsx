@@ -3,7 +3,13 @@ import { createTransaction, parseURL } from "@solana/pay";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import BigNumber from "bignumber.js";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useBoxDispatch } from "../providers/BoxBrowser";
 import { useDjibConnection } from "../providers/DjibConnectionProvider";
 import { useUpload } from "../providers/Upload";
@@ -16,7 +22,7 @@ import Input from "./Input";
 import InputWithDropdown from "./InputWithDropdown";
 import KeyValueInput, { AttrType } from "./KeyValueInput";
 import Loading from "./Loading";
-import {ReactComponent as Logo} from './../assets/images/icon-logo.svg'
+import { ReactComponent as Logo } from "./../assets/images/icon-logo.svg";
 
 function MintOne() {
   const [name, setName] = useState("");
@@ -35,7 +41,7 @@ function MintOne() {
   const { publicKey: payer, signTransaction } = useWallet();
   const { connection } = useConnection();
   const { updateStatus } = useBoxDispatch();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const thumbnailRef = useRef<HTMLInputElement>(null);
 
   const handleChangeAttr = useCallback((data: AttrType[]) => {
@@ -91,7 +97,6 @@ function MintOne() {
     return () => clearTimeout(timeout);
   }, [djibConn, upload]);
 
-
   const handleGetThumbnail = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const f = e.target.files && e.target.files[0];
@@ -136,7 +141,7 @@ function MintOne() {
     if (
       name &&
       symbol &&
-      sellerFee &&
+      sellerFee !== undefined &&
       externalUrl &&
       desc &&
       attrs.length &&
@@ -147,7 +152,6 @@ function MintOne() {
     ) {
       updateStatus("loading");
       try {
-
         let cidThumbnail: string | undefined = undefined;
         if (thumbnailFile) {
           const data: any = await djibConn.upload({
@@ -157,7 +161,6 @@ function MintOne() {
           cidThumbnail =
             data.result[0].split("/")[data.result[0].split("/").length - 1];
         }
-        
 
         const {
           result: { cid, created_at },
@@ -212,52 +215,68 @@ function MintOne() {
         updateStatus("error", e?.data);
       }
     }
-  }, [attrs, collection, connection, desc, djibConn, externalUrl, family, name, payer, sellerFee, signTransaction, symbol, thumbnailFile, updateStatus, upload]);
+  }, [
+    attrs,
+    collection,
+    connection,
+    desc,
+    djibConn,
+    externalUrl,
+    family,
+    name,
+    payer,
+    sellerFee,
+    signTransaction,
+    symbol,
+    thumbnailFile,
+    updateStatus,
+    upload,
+  ]);
 
   return (
     <div>
-       <div className={styles.thumbnail}>
-          {loading ? (
-            <div style={{ width: 100, height: 110 }}>
-              <Loading  />
-            </div>
-          ) : (
-            <>
-              {!thumbnail && <Logo width={100} height={100} />}
-              {!!thumbnail && (
-                <div className={styles.image}>
-                  <img src={thumbnail} alt="thumbnail" />
-                </div>
-              )}
-            </>
+      <div className={styles.thumbnail}>
+        {loading ? (
+          <div style={{ width: 100, height: 110 }}>
+            <Loading />
+          </div>
+        ) : (
+          <>
+            {!thumbnail && <Logo width={100} height={100} />}
+            {!!thumbnail && (
+              <div className={styles.image}>
+                <img src={thumbnail} alt="thumbnail" />
+              </div>
+            )}
+          </>
+        )}
+
+        <div>
+          <p>Thumbnail</p>
+          {![
+            "jpeg",
+            "png",
+            "svg",
+            "apng",
+            "avif",
+            "webp",
+            "gif",
+            "jpg",
+          ].includes(upload[1] || "") && (
+            <button onClick={() => thumbnailRef.current?.click()}>
+              Edit thumbnail
+            </button>
           )}
 
-          <div>
-            <p>Thumbnail</p>
-            {![
-              "jpeg",
-              "png",
-              "svg",
-              "apng",
-              "avif",
-              "webp",
-              "gif",
-              "jpg",
-            ].includes(upload[1] || "") && (
-              <button onClick={() => thumbnailRef.current?.click()}>
-                Edit thumbnail
-              </button>
-            )}
-
-            <input
-              type="file"
-              hidden={true}
-              ref={thumbnailRef}
-              accept="image/*"
-              onChange={handleGetThumbnail}
-            />
-          </div>
+          <input
+            type="file"
+            hidden={true}
+            ref={thumbnailRef}
+            accept="image/*"
+            onChange={handleGetThumbnail}
+          />
         </div>
+      </div>
       <div className={styles.inputs}>
         <Input
           placeholder="Name"
@@ -328,7 +347,20 @@ function MintOne() {
           onClick={handleSaveClick}
           // fullWidth={true}
           // withLoading={true}
-          // isDisabled={isDisabledButton}
+          isDisabled={
+            !(
+              name &&
+              symbol &&
+              sellerFee !== undefined &&
+              externalUrl &&
+              desc &&
+              attrs.length &&
+              collection &&
+              family &&
+              payer &&
+              signTransaction
+            )
+          }
         >
           Mint
         </Button>
