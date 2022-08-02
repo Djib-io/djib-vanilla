@@ -23,7 +23,7 @@ function StatusBox({ status, message }: StatusBoxProps) {
             <div className={classNames(styles.icon, { [styles.error]: status === "error" })}>
                 {status === 'success' ? <SuccessIcon /> : <FailedIcon />}
             </div>
-            <p className={classNames(styles.title, { [styles.error]: status === "error" })}>{status === 'success' ? 'Successfully!' : 'Failed!'}</p>
+            <p className={classNames(styles.title, { [styles.error]: status === "error" })}>{status === 'success' ? 'Success!' : 'Failed!'}</p>
             <p className={styles.message}>{message}</p>
         </div>
     );
