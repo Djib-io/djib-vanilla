@@ -18,9 +18,9 @@ function Nav() {
                     styles.container
                 )}
             >
-                <div className={styles.logo}>
+                <a className={styles.logo} href="/">
                     <Logo/>
-                </div>
+                </a>
 
                 <div className={styles.right}>
                     <ReactTooltip place="right" type="dark" effect="solid"/>

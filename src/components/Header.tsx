@@ -16,7 +16,7 @@ function Header() {
           Djib-Vanilla is a lightweight, secure, and carbon-neutral web3.0 app
           to store and share files on the Djib network. With Djib Vanilla, you
           can upload and share files permanently and mint NFTs on Solana with
-          no coding skill required
+          no coding skill required.
         </div>
         
         <Breadcrumb />

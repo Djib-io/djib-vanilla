@@ -55,7 +55,7 @@ function MintOne() {
     (async () => {
       if (
         upload &&
-        ["jpeg", "png", "svg", "apng", "avif", "webp", "gif", "jpg"].includes(
+        ["jpeg", "png", "svg+xml", "apng", "avif", "webp", "gif", "jpg"].includes(
           upload[1] || ""
         )
       ) {
@@ -256,14 +256,14 @@ function MintOne() {
           {![
             "jpeg",
             "png",
-            "svg",
+            "svg+xml",
             "apng",
             "avif",
             "webp",
             "gif",
             "jpg",
           ].includes(upload[1] || "") && (
-            <button onClick={() => thumbnailRef.current?.click()}>
+            <button className="edit-thumbnail" onClick={() => thumbnailRef.current?.click()}>
               Edit thumbnail
             </button>
           )}
@@ -281,11 +281,13 @@ function MintOne() {
         <Input
           placeholder="Name"
           value={name}
+          maxLength={32}
           onChange={(e) => setName(e.target.value)}
         />
         <Input
           placeholder="Symbol"
           value={symbol}
+          maxLength={10}
           onChange={(e) => setSymbol(e.target.value)}
         />
         <Input
@@ -301,6 +303,7 @@ function MintOne() {
         <Input
           placeholder="External url"
           value={externalUrl}
+          maxLength={70}
           onChange={(e) => setExternalUrl(e.target.value)}
         />
         <Input
@@ -308,6 +311,7 @@ function MintOne() {
           containerClassName={styles.desc}
           textarea={true}
           value={desc}
+          maxLength={1024}
           placeholder="Description..."
         />
       </div>

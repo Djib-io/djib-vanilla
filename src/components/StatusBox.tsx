@@ -12,11 +12,15 @@ export type StatusBoxProps = {
 }
 
 function StatusBox({ status, message }: StatusBoxProps) {
-    const { updateStatus } = useBoxDispatch()
+    const { updateStatus, popStack } = useBoxDispatch()
 
     return (
         <div className={styles.statusBox}>
-            <div className={classNames(styles.back,  { [styles.error]: status === "error" })} onClick={() => updateStatus('normal')}>
+            <div className={classNames(styles.back,  { [styles.error]: status === "error" })} onClick={() => {
+                if (status === "success")
+                    popStack('actions')
+                updateStatus('normal')
+            }}>
                 <BackIcon />
                 <p>Back</p>
             </div>
